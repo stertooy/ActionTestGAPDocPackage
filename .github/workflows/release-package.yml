@@ -36,7 +36,7 @@ jobs:
       - name: gap -- release package
         uses: limakzi/gap-action-release-pkg@v1
         with:
-          upload-artifacts: true
+          upload-artifacts: 'true'
 
 
   update-website:
