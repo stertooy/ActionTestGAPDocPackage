@@ -16,20 +16,12 @@ License := "GPL-2.0-or-later",
 
 Persons := [
   rec(
-    FirstNames := "Max",
-    LastName := "Horn",
-    WWWHome := "https://www.quendi.de/math",
-    Email := "mhorn@rptu.de",
+    FirstNames := "FirstName",
+    LastName := "LastName",
+    WWWHome := "https://www.gap-system.org/",
+    Email := "support@gap-system.org",
     IsAuthor := true,
     IsMaintainer := true,
-    PostalAddress := Concatenation(
-               "Fachbereich Mathematik\n",
-               "RPTU Kaiserslautern-Landau\n",
-               "Gottlieb-Daimler-Straße 48\n",
-               "67663 Kaiserslautern\n",
-               "Germany" ),
-    Place := "Kaiserslautern, Germany",
-    Institution := "RPTU Kaiserslautern-Landau",
   ),
 ],
 
