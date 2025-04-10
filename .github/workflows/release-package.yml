@@ -34,5 +34,5 @@ jobs:
           use-latex: 'true'
 
       - name: gap -- release package
-        uses: limakzi/gap-action-release-pkg@v1
+        uses: gap-actions/release-pkg@main  # FIXME: switch to this to a tag
 
