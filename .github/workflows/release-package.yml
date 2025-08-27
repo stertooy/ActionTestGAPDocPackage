@@ -7,6 +7,12 @@ on:
   release:
     types:
       - published
+    inputs:
+      dry-run:
+        description: "Set to true to create an archive instead of a release"
+        type: boolean
+        required: false
+        default: false
 
 env:
   gap-branch: stable-4.14
@@ -34,3 +40,5 @@ jobs:
 
       - name: gap -- release package
         uses: gap-actions/release-pkg@v1
+        with:
+          dry-run: ${{ inputs.dry-run }}
