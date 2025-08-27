@@ -10,8 +10,6 @@ on:
 
 env:
   gap-branch: stable-4.14
-  revision: ${{ github.event.repository.name }}-${{ github.ref_name }}
-  archive-file:  ${{ github.event.repository.name }}-${{ github.ref_name }}.tar.gz
 
 jobs:
   assets-build:
@@ -20,13 +18,14 @@ jobs:
       contents: write
     steps:
       - name: git -- checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.ref_name }}
 
       - uses: gap-actions/setup-gap@v2
         with:
           GAPBRANCH: ${{ env.gap-branch }}
+          GAP_PKGS_TO_BUILD: json
 
       - name: gap -- build docs
         uses: gap-actions/build-pkg-docs@v1
@@ -34,5 +33,4 @@ jobs:
           use-latex: 'true'
 
       - name: gap -- release package
-        uses: gap-actions/release-pkg@main  # FIXME: switch to this to a tag
-
+        uses: gap-actions/release-pkg@v1
