@@ -19,28 +19,37 @@ concurrency:
 jobs:
   # The CI test job
   test:
-    name: ${{ matrix.gap-branch }}
-    runs-on: ubuntu-latest
+    name: "${{ matrix.gap-version }} | ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        gap-branch:
-          - master
-          - stable-4.13
-          - stable-4.12
-          - stable-4.11
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        gap-version:
+          - master # TODO: replace by devel?
+          - v4.15.0-beta1
+          - v4.14
+          - v4.13
+          - v4.12
+          - v4.11
+          - v4.10
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: gap-actions/setup-gap@v2
+      - uses: actions/checkout@v5
+      - uses: gap-actions/setup-cygwin@v2
+        if: ${{ runner.os == 'Windows' }}
+      - uses: gap-actions/setup-gap@v3
         with:
-          GAPBRANCH: ${{ matrix.gap-branch }}
-      - uses: gap-actions/build-pkg@v1
-      - uses: gap-actions/run-pkg-tests@v2
-      - uses: gap-actions/run-pkg-tests@v2
+          gap-version: ${{ matrix.gap-version }}
+      - uses: gap-actions/build-pkg@main # TODO: replace by v2
+      - uses: gap-actions/run-pkg-tests@main # TODO: replace by v4
+      - uses: gap-actions/run-pkg-tests@main # TODO: replace by v4
         with:
-          only-needed: true
-      - uses: gap-actions/process-coverage@v2
+          mode: onlyneeded
+      - uses: gap-actions/process-coverage@main # TODO: replace by v3
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -51,9 +60,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: gap-actions/setup-gap@v2
-      - uses: gap-actions/build-pkg-docs@v1
+      - uses: actions/checkout@v5
+      - uses: gap-actions/setup-gap@v3
+      - uses: gap-actions/build-pkg-docs@v2
         with:
           use-latex: 'true'
       - name: 'Upload documentation'
