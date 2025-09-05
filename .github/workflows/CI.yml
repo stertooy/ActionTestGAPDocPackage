@@ -59,21 +59,8 @@ jobs:
 
   # The documentation job
   manual:
-    name: "Build manuals on ${{ matrix.gap-version }} | ${{ matrix.os }}"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-        gap-version:
-          - master # TODO: replace by devel?
-          - v4.15.0-beta1
-          - v4.14
-          - v4.13
-          - v4.12
-          - v4.11
-          - v4.10
+    name: "Build manuals"
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v5
@@ -81,9 +68,8 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v2
         with:
           use-latex: 'true'
-      - name: 'Upload documentation'
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: manual-${{ matrix.gap-version }}
+          name: manual
           path: ./doc/manual.pdf
           if-no-files-found: error
