@@ -19,7 +19,7 @@ concurrency:
 jobs:
   # The CI test job
   test:
-    name: "${{ matrix.gap-version }} | ${{ matrix.os }}"
+    name: "Run CI tests on ${{ matrix.gap-version }} | ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -36,6 +36,9 @@ jobs:
           - v4.12
           - v4.11
           - v4.10
+        exclude:
+          - os: macos-latest
+            gap-version: v4.10
 
     steps:
       - uses: actions/checkout@v5
@@ -50,14 +53,27 @@ jobs:
         with:
           mode: onlyneeded
       - uses: gap-actions/process-coverage@main # TODO: replace by v3
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   # The documentation job
   manual:
-    name: Build manuals
-    runs-on: ubuntu-latest
+    name: "Build manuals on ${{ matrix.gap-version }} | ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        gap-version:
+          - master # TODO: replace by devel?
+          - v4.15.0-beta1
+          - v4.14
+          - v4.13
+          - v4.12
+          - v4.11
+          - v4.10
 
     steps:
       - uses: actions/checkout@v5
@@ -68,6 +84,6 @@ jobs:
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v4
         with:
-          name: manual
+          name: manual-${{ matrix.gap-version }}
           path: ./doc/manual.pdf
           if-no-files-found: error
