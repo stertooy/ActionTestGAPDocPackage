@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "ActionTestGAPDocPackage",
 Subtitle := "Test package for GAP actions",
-Version := "0.1.1",
-Date := "27/08/2025", # dd/mm/yyyy format
+Version := "0.1.2",
+Date := "08/09/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
